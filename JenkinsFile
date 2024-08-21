@@ -38,9 +38,22 @@ pipeline {
                 script {
                     docker.withRegistry( '', registryCredential ) {
                     dockerImage.push()
+                    }
                 }
             }
         }
+        stage('Docker Run') {
+            steps{
+                script {
+                    dockerImage.run("-p 9090:80 --rm --name mypythonappContainer")
+                    
+                }
+            }
+        }
+        stage('Container status') {
+            steps{
+                sh 'docker inspect mypythonappContainer'
+            }
+        }
     }
-}
 }
