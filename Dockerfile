@@ -1,3 +1,3 @@
 FROM nginx
 RUN apt update
-RUN apt install vi
+RUN apt install vim -y
