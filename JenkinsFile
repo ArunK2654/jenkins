@@ -1,1 +1,46 @@
+pipeline {
+    agent any
+    
+    environment {
+        registry = "arun8123456/mypythonapp"
+        //- update your credentials ID after creating credentials for connecting to Docker Hub
+        registryCredential = 'DockerhubID'
+        dockerImage = ''
+    }
 
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/ArunK2654/jenkins']])
+            }
+        }
+        stage('Build Image') {
+            steps {
+                sh 'ls'
+                sh 'whoami'
+                script {
+                    dockerImage = docker.build registry
+                }
+                sh 'docker images'
+            }
+        }
+        stage('Run busybox') {
+            steps {
+                script {
+                    busyboximage = docker.image('busybox:latest')
+                }
+                sh 'ls'
+                sh 'docker ps -a'
+            }
+        }
+        stage('Upload Image') {
+            steps{    
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                    dockerImage.push()
+                }
+            }
+        }
+    }
+}
+}
