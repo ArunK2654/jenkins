@@ -1,0 +1,8 @@
+kind: Deployment
+apiVersion: v1
+  metadata:
+    name: Ndep
+    labels:
+      app: nginx
+  spec:
+  
