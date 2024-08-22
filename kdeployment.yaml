@@ -16,4 +16,4 @@ spec:
     spec:
       containers:
         - name: nginxcont
-          image: arun8123456/mypythonapp:${BUILD_NUMBER}
+          image: arun8123456/mypythonapp:latest
